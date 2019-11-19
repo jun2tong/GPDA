@@ -1,24 +1,29 @@
+import os
 import numpy as np
-from scipy.io import loadmat
 
-from utils.utils import convert_label_10_to_0
+from scipy.io import loadmat
+from src.utils.utils import convert_label_10_to_0
+from torchvision.datasets import SVHN
+
 
 ###############################################################################
 
 def load_svhn():
-
-    '''
+    """
     load svhn dataset
-    
+
     input: N/A
-      
+
     output:
       svhn_train_im = training images; (73257 x 3 x 32 x 32)
       svhn_label = {0...9}-valued training labels; 73257-dim
       svhn_test_im = test images; (26032 x 3 x 32 x 32)
-      svhn_label_test = {0...9}-valued test labels; 26032-dim    
-    '''
-    
+      svhn_label_test = {0...9}-valued test labels; 26032-dim
+    """
+    if not os.path.exists('data/svhn/train_32x32.mat'):
+        os.makedirs("data/svhn")
+        SVHN("data/svhn", download=True, split="train")
+        SVHN("data/svhn", download=True, split="test")
     svhn_train = loadmat('data/svhn/train_32x32.mat')
     svhn_test = loadmat('data/svhn/test_32x32.mat')
     svhn_train_im = svhn_train['X']

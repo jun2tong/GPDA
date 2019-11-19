@@ -1,14 +1,15 @@
 import torch.utils.data
-import torchnet as tnt
+
 from builtins import object
 import torchvision.transforms as transforms
 
-from data_manager.datasets import Dataset
+from src.data_manager.datasets import Dataset
+
 
 ###############################################################################
 
 class PairedData(object):
-    
+
     def __init__(self, data_loader_A, data_loader_B, max_dataset_size):
 
         self.data_loader_A = data_loader_A
@@ -46,7 +47,7 @@ class PairedData(object):
                 self.data_loader_B_iter = iter(self.data_loader_B)
                 B, B_paths = next(self.data_loader_B_iter)
 
-        if (self.stop_A and self.stop_B) or self.iter>self.max_dataset_size:
+        if (self.stop_A and self.stop_B) or self.iter > self.max_dataset_size:
             self.stop_A = False
             self.stop_B = False
             raise StopIteration()
@@ -55,39 +56,36 @@ class PairedData(object):
             return {'S': A, 'S_label': A_paths,
                     'T': B, 'T_label': B_paths}
 
+
 ###############################################################################
 
-class UnalignedDataLoader():
-    
-    def initialize(self, source, target, batch_size1, batch_size2, scale=32):
-        
+class UnalignedDataLoader(object):
+
+    def __init__(self, source, target, batch_size1, batch_size2, scale=32):
         transform = transforms.Compose([
-            transforms.Scale(scale),
+            transforms.Resize(scale),
             transforms.ToTensor(),
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
         ])
-    
-        dataset_source = Dataset( 
-          source['imgs'], source['labels'], transform=transform )
-        dataset_target = Dataset(
-          target['imgs'], target['labels'], transform=transform )
+
+        dataset_source = Dataset(source['imgs'], source['labels'], transform=transform)
+        dataset_target = Dataset(target['imgs'], target['labels'], transform=transform)
 
         data_loader_s = torch.utils.data.DataLoader(
             dataset_source,
             batch_size=batch_size1,
             shuffle=True,
-            num_workers=4 )
+            num_workers=4)
 
         data_loader_t = torch.utils.data.DataLoader(
             dataset_target,
             batch_size=batch_size2,
             shuffle=True,
-            num_workers=4 )
-        
+            num_workers=4)
+
         self.dataset_s = dataset_source
         self.dataset_t = dataset_target
-        self.paired_data = PairedData(
-          data_loader_s, data_loader_t, float("inf") )
+        self.paired_data = PairedData(data_loader_s, data_loader_t, float("inf"))
 
     def name(self):
         return 'UnalignedDataLoader'
@@ -96,4 +94,4 @@ class UnalignedDataLoader():
         return self.paired_data
 
     def __len__(self):
-        return min(max(len(self.dataset_s),len(self.dataset_t)), float("inf"))
+        return min(max(len(self.dataset_s), len(self.dataset_t)), float("inf"))

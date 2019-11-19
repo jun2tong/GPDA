@@ -1,6 +1,8 @@
-import model.svhn2mnist as svhn2mnist
-#import model.usps as usps
-#import model.syn2gtrsb as syn2gtrsb
+import src.model.svhn2mnist as svhn2mnist
+
+
+# import model.usps as usps
+# import model.syn2gtrsb as syn2gtrsb
 
 ###############################################################################
 
@@ -11,6 +13,7 @@ def PhiGnet(source, target):
         return svhn2mnist.PhiGnetwork()
     elif source == 'synth':
         return syn2gtrsb.PhiGnetwork()
+
 
 ###############################################################################
 
@@ -24,7 +27,7 @@ def QWnet(source, target):
 
 ###############################################################################
 
-#def Generator(source, target):
+# def Generator(source, target):
 #    if source == 'usps' or target == 'usps':
 #        return usps.Feature()
 #    elif source == 'svhn':
@@ -33,8 +36,8 @@ def QWnet(source, target):
 #        return syn2gtrsb.Feature()
 
 ###############################################################################
-        
-#def Classifier(source, target):
+
+# def Classifier(source, target):
 #    if source == 'usps' or target == 'usps':
 #        return usps.Predictor()
 #    if source == 'svhn':
