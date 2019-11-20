@@ -7,6 +7,7 @@ from torch.autograd import Variable
 
 from src.model.build_gen import PhiGnet, QWnet
 from src.data_manager.dataset_read import dataset_read
+from src.utils.constants import device
 
 
 ###############################################################################
@@ -57,8 +58,8 @@ class Solver(object):
                                  (self.checkpoint_dir, args.resume_epoch))
 
         # move models to GPU
-        self.phig.cuda()
-        self.qw.cuda()
+        self.phig.to(device)
+        self.qw.to(device)
 
         # create optimizer objects (one for each model)
         self.set_optimizer(which_opt=optimizer, lr=learning_rate)
@@ -118,7 +119,7 @@ class Solver(object):
         train models for one epoch (ie, one pass of whole training data)
         """
 
-        criterion = nn.CrossEntropyLoss().cuda()
+        criterion = nn.CrossEntropyLoss().to(device)
 
         # turn models into "training" mode 
         #   (required if models contain "BatchNorm"-like layers)
@@ -136,16 +137,16 @@ class Solver(object):
             if img_s.size()[0] < self.batch_size or \
                     img_t.size()[0] < self.batch_size:
                 break
-            img_s = img_s.cuda()
-            img_t = img_t.cuda()
+            img_s = img_s.to(device)
+            img_t = img_t.to(device)
             # imgs = Variable(torch.cat((img_s, img_t), 0))
-            label_s = Variable(label_s.long().cuda())
+            label_s = Variable(label_s.long().to(device))
             img_s = Variable(img_s)
             img_t = Variable(img_t)
 
             # (M x p x K) samples from N(0,1)
             eps = Variable(torch.randn(self.M, self.p, 10))
-            eps = eps.cuda()
+            eps = eps.to(device)
 
             #### step A: min_{qw} (nll + kl)
 
@@ -243,7 +244,7 @@ class Solver(object):
         evaluate the current models on the entire test set
         """
 
-        criterion = nn.CrossEntropyLoss().cuda()
+        criterion = nn.CrossEntropyLoss().to(device)
 
         # turn models into evaluation mode
         self.phig.eval()
@@ -260,7 +261,7 @@ class Solver(object):
                 img = data['T']
                 label = data['T_label']
 
-                img, label = img.cuda(), label.long().cuda()
+                img, label = img.to(device), label.long().to(device)
 
                 # img, label = Variable(img, volatile=True), Variable(label)
                 img, label = Variable(img), Variable(label)
