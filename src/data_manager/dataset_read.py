@@ -1,3 +1,4 @@
+import pdb
 import sys
 
 from src.data_manager.unaligned_data_loader import UnalignedDataLoader
@@ -34,6 +35,7 @@ def return_dataset(data, scale=False, usps=False, all_use='no'):
         # train_image, train_label, test_image, test_label = \
         #     load_mnist(scale=scale, usps=usps, all_use=all_use)
         train_image, train_label, test_image, test_label = load_mnist_new(scale=scale, usps=usps, all_use=all_use)
+
         sys.stdout.write('mnist image shape = ')
         print(train_image.shape)
 

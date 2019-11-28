@@ -1,3 +1,4 @@
+import pdb
 import torch.utils.data
 
 from builtins import object
@@ -67,9 +68,14 @@ class UnalignedDataLoader(object):
             transforms.ToTensor(),
             transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
         ])
+        t_transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize(mean=(0.1000, 0.1, 0.1), std=(0.2752, 0.2752, 0.2752))
+        ])
 
         dataset_source = Dataset(source['imgs'], source['labels'], transform=transform)
-        dataset_target = Dataset(target['imgs'], target['labels'], transform=transform)
+        dataset_target = Dataset(target['imgs'], target['labels'], transform=t_transform)
+        # dataset_target = Dataset(target['imgs'], target['labels'])
 
         data_loader_s = torch.utils.data.DataLoader(
             dataset_source,

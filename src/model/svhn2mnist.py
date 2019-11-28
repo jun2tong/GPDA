@@ -2,7 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-#from model.grad_reverse import grad_reverse
+
+# from model.grad_reverse import grad_reverse
 
 ###############################################################################
 
@@ -15,11 +16,10 @@ import torch.nn.functional as F
 #
 
 class PhiGnetwork(nn.Module):
-    
+
     def __init__(self):
-        
         super(PhiGnetwork, self).__init__()
-        
+
         self.g_conv1 = nn.Conv2d(3, 64, kernel_size=5, stride=1, padding=2)
         self.g_bn1 = nn.BatchNorm2d(64)
         self.g_conv2 = nn.Conv2d(64, 64, kernel_size=5, stride=1, padding=2)
@@ -28,29 +28,29 @@ class PhiGnetwork(nn.Module):
         self.g_bn3 = nn.BatchNorm2d(128)
         self.g_fc1 = nn.Linear(8192, 3072)
         self.g_bn1_fc = nn.BatchNorm1d(3072)
-        
-        #self.phi_fc1 = nn.Linear(8192, 3072)
-        #self.phi_bn1_fc = nn.BatchNorm1d(3072)
+
+        # self.phi_fc1 = nn.Linear(8192, 3072)
+        # self.phi_bn1_fc = nn.BatchNorm1d(3072)
         self.phi_fc2 = nn.Linear(3072, 2048)
         self.phi_bn2_fc = nn.BatchNorm1d(2048)
-        
+
         self.p = 2048
 
     def forward(self, x):
-        
-        x = F.max_pool2d( F.relu(self.g_bn1(self.g_conv1(x))), 
-          stride=2, kernel_size=3, padding=1 )
-        x = F.max_pool2d( F.relu(self.g_bn2(self.g_conv2(x))), 
-          stride=2, kernel_size=3, padding=1 )
+        x = F.max_pool2d(F.relu(self.g_bn1(self.g_conv1(x))),
+                         stride=2, kernel_size=3, padding=1)
+        x = F.max_pool2d(F.relu(self.g_bn2(self.g_conv2(x))),
+                         stride=2, kernel_size=3, padding=1)
         x = F.relu(self.g_bn3(self.g_conv3(x)))
         x = x.view(x.size(0), 8192)
         x = F.relu(self.g_bn1_fc(self.g_fc1(x)))
         z = F.dropout(x, training=self.training)
-        
+
         u = F.relu(self.phi_bn2_fc(self.phi_fc2(z)))
-        
+
         return u
-    
+
+
 ###############################################################################
 
 #
@@ -64,25 +64,23 @@ class PhiGnetwork(nn.Module):
 #
 
 class QWnetwork(nn.Module):
-    
+
     def __init__(self):
-        
         super(QWnetwork, self).__init__()
-        
-        self.mu = nn.Parameter(0.01*torch.randn(2048, 10))
-        self.logsd = nn.Parameter(0.01*torch.randn(2048, 10))
+
+        self.mu = nn.Parameter(0.01 * torch.randn(2048, 10))
+        self.logsd = nn.Parameter(0.01 * torch.randn(2048, 10))
 
     def forward(self, eps):
-        
         mu3 = self.mu.unsqueeze(0)  # (1 x p x K)
         sd3 = torch.exp(self.logsd).unsqueeze(0)  # (1 x p x K)
-        w = mu3 + sd3*eps  # (M x p x K) 
-        
+        w = mu3 + sd3 * eps  # (M x p x K)
+
         return w
 
 ###############################################################################
 
-#class Feature(nn.Module):
+# class Feature(nn.Module):
 #    
 #    def __init__(self):
 #        
@@ -112,7 +110,7 @@ class QWnetwork(nn.Module):
 
 ###############################################################################
 
-#class Predictor(nn.Module):
+# class Predictor(nn.Module):
 #    
 #    def __init__(self, prob=0.5):
 #        

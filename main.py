@@ -17,7 +17,7 @@ parser.add_argument('--nsamps_q',
                     help='# of samples from variational density q(w) (default: 50)')
 
 parser.add_argument('--lamb_marg_loss',
-                    type=float, default=10.0,
+                    type=float, default=50.0,
                     help='impact of margin loss (default: 10.0)')
 
 parser.add_argument('--all_use',
@@ -25,7 +25,7 @@ parser.add_argument('--all_use',
                     help='use all training data? (default: "no")')
 
 parser.add_argument('--batch-size',
-                    type=int, default=128,
+                    type=int, default=32,
                     help='input batch size for training (default: 128)')
 
 # parser.add_argument( '--checkpoint_dir',

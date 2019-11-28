@@ -96,17 +96,23 @@ def load_mnist_new(scale=True, usps=False, all_use='no'):
     val_dataset = MNIST("data/mnist",
                         train=False,
                         transform=val_transform)
-    mnist_train = np.zeros((len(train_dataset), 1, 32, 32))
-    mnist_test = np.zeros((len(val_dataset), 1, 32, 32))
+    mnist_train = np.zeros((len(train_dataset), 32, 32, 1))
+    mnist_test = np.zeros((len(val_dataset), 32, 32, 1))
     idx = 0
     for each_img, each_label in train_dataset:
-        mnist_train[idx] = each_img.unsqueeze(1).numpy()
+        mnist_train[idx] = np.uint8(each_img.unsqueeze(3).numpy()*255)
         idx += 1
+    mnist_train = np.concatenate([mnist_train, mnist_train, mnist_train], 3)
+    # reshape to (n x C x H x W) format
+    mnist_train = mnist_train.transpose(0, 3, 1, 2).astype(np.float32)
 
     idx = 0
     for each_img, each_label in val_dataset:
-        mnist_test[idx] = each_img.unsqueeze(1).numpy()
+        mnist_test[idx] = np.uint8(each_img.unsqueeze(3).numpy()*255)
         idx += 1
+    mnist_test = np.concatenate([mnist_test, mnist_test, mnist_test], 3)
+    # reshape to (n x C x H x W) format
+    mnist_test = mnist_test.transpose(0, 3, 1, 2).astype(np.float32)
 
     train_label = train_dataset.train_labels.numpy()
     test_label = val_dataset.train_labels.numpy()
