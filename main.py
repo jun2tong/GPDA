@@ -96,6 +96,10 @@ parser.add_argument('--fix_randomness',
                     action='store_true', default=False,
                     help='fix randomness')
 
+parser.add_argument('--vadam',
+                    default=False, type=bool,
+                    help='Whether to use Variation Adam (default: False)')
+
 args = parser.parse_args()
 
 args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -117,7 +121,8 @@ if args.fix_randomness:
 def main():
     # make a string that describes the current running setup
     num = 0
-    run_setup_str = f"{args.source}2{args.target}_k_{args.num_k}_kq_{args.num_kq}_lamb_{args.lamb_marg_loss}"
+    vadam_str = "vadam" if args.vadam else "adam"
+    run_setup_str = f"{args.source}2{args.target}_k_{args.num_k}_kq_{args.num_kq}_lamb_{args.lamb_marg_loss}_{vadam_str}"
 
     while os.path.exists(f"record/{run_setup_str}_run_{num}.txt"):
         num += 1
@@ -153,7 +158,8 @@ def main():
                     num_kq=args.num_kq,
                     all_use=args.all_use,
                     checkpoint_dir=checkpoint_dir,
-                    save_epoch=args.save_epoch)
+                    save_epoch=args.save_epoch,
+                    use_vadam=args.vadam)
 
     # run it (test or training)
     if args.eval_only:
