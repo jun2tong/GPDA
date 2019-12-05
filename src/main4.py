@@ -103,6 +103,9 @@ parser.add_argument('--vadam',
 parser.add_argument('--gpu', 
                     type= int, default=1, help='choose gpu')
 
+parser.add_argument('--log_string', 
+                    type=str, default="", help='log_string')
+
 args = parser.parse_args()
 
 args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -125,7 +128,8 @@ def main():
     # make a string that describes the current running setup
     num = 0
     vadam_str = "vadam" if args.vadam else "adam"
-    run_setup_str = f"{args.source}2{args.target}_k_{args.num_k}_kq_{args.num_kq}_lamb_{args.lamb_marg_loss}_{vadam_str}"
+
+    run_setup_str = f"{args.source}2{args.target}_k_{args.num_k}_kq_{args.num_kq}_lamb_{args.lamb_marg_loss}_{vadam_str}_{args.log_string}"
 
     while os.path.exists(f"record/{run_setup_str}_run_{num}.txt"):
         num += 1
@@ -163,7 +167,8 @@ def main():
                     checkpoint_dir=checkpoint_dir,
                     save_epoch=args.save_epoch,
                     use_vadam=args.vadam,
-                    gpu=args.gpu)
+                    gpu=args.gpu
+                    )
 
     # run it (test or training)
     if args.eval_only:
