@@ -17,7 +17,7 @@ parser.add_argument('--nsamps_q',
                     help='# of samples from variational density q(w) (default: 50)')
 
 parser.add_argument('--lamb_marg_loss',
-                    type=float, default=10.0,
+                    type=float, default=50.0,
                     help='impact of margin loss (default: 10.0)')
 
 parser.add_argument('--all_use',
@@ -25,11 +25,11 @@ parser.add_argument('--all_use',
                     help='use all training data? (default: "no")')
 
 parser.add_argument('--batch-size',
-                    type=int, default=128,
+                    type=int, default=32,
                     help='input batch size for training (default: 128)')
 
 # parser.add_argument( '--checkpoint_dir',
-#  type=str, default='checkpoint', 
+#  type=str, default='checkpoint',
 #  help='source only or not (default: "checkpoint")' )
 
 parser.add_argument('--eval_only',
@@ -96,6 +96,13 @@ parser.add_argument('--fix_randomness',
                     action='store_true', default=False,
                     help='fix randomness')
 
+parser.add_argument('--vadam',
+                    default=False, type=bool,
+                    help='Whether to use Variation Adam (default: False)')
+
+parser.add_argument('--gpu', 
+                    type= int, default=1, help='choose gpu')
+
 args = parser.parse_args()
 
 args.cuda = not args.no_cuda and torch.cuda.is_available()
@@ -117,7 +124,8 @@ if args.fix_randomness:
 def main():
     # make a string that describes the current running setup
     num = 0
-    run_setup_str = f"{args.source}2{args.target}_k_{args.num_k}_kq_{args.num_kq}_lamb_{args.lamb_marg_loss}"
+    vadam_str = "vadam" if args.vadam else "adam"
+    run_setup_str = f"{args.source}2{args.target}_k_{args.num_k}_kq_{args.num_kq}_lamb_{args.lamb_marg_loss}_{vadam_str}"
 
     while os.path.exists(f"record/{run_setup_str}_run_{num}.txt"):
         num += 1
@@ -139,7 +147,7 @@ def main():
 
     ####
 
-    # create a solver: load data, create models (or load existing models), 
+    # create a solver: load data, create models (or load existing models),
     #   and create optimizers
     solver = Solver(args,
                     source=args.source,
@@ -153,9 +161,11 @@ def main():
                     num_kq=args.num_kq,
                     all_use=args.all_use,
                     checkpoint_dir=checkpoint_dir,
-                    save_epoch=args.save_epoch)
+                    save_epoch=args.save_epoch,
+                    use_vadam=args.vadam,
+                    gpu=args.gpu)
 
-    # run it (test or training)  
+    # run it (test or training)
     if args.eval_only:
         solver.test(0)
     else:  # training

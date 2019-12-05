@@ -10,7 +10,7 @@ from vadam.optimizers import Vadam
 
 from src.model.build_gen import PhiGnet, QWnet
 from src.data_manager.dataset_read import dataset_read
-from src.utils.constants import device
+# from src.utils.constants import device
 
 
 ###############################################################################
