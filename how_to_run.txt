@@ -1,0 +1,3 @@
+In GPDA
+python src/main4.py --num_k 10 --num_kq 8 --batch-size 128 --max_epoch 400 --vadam True --gpu 2
+
