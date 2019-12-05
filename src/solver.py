@@ -21,9 +21,19 @@ class Solver(object):
     def __init__(self, args, batch_size=128, source='svhn', target='mnist',
                  nsamps_q=50, lamb_marg_loss=10.0,
                  learning_rate=0.0002, interval=100, optimizer='adam', num_k=4, num_kq=4,
-                 all_use=False, checkpoint_dir=None, save_epoch=10, use_vadam=False):
+                 all_use=False, checkpoint_dir=None, save_epoch=10, use_vadam=False, gpu=1):
 
         # set hyperparameters
+        if gpu == 0:
+            self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        if gpu == 1:
+            self.device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+        if gpu == 2:
+            self.device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+        if gpu == 3:
+            self.device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
+        print("Using GPU", self.device)
+        
         self.batch_size = batch_size
         self.source = source
         self.target = target
@@ -61,8 +71,8 @@ class Solver(object):
                                  (self.checkpoint_dir, args.resume_epoch))
 
         # move models to GPU
-        self.phig.to(device)
-        self.qw.to(device)
+        self.phig.to(self.device)
+        self.qw.to(self.device)
 
         # create optimizer objects (one for each model)
         self.set_optimizer(which_opt=optimizer, lr=learning_rate)
@@ -120,7 +130,7 @@ class Solver(object):
         """
         train models for one epoch (ie, one pass of whole training data)
         """
-        criterion = nn.CrossEntropyLoss().to(device)
+        criterion = nn.CrossEntropyLoss().to(self.device)
         correct = 0
         n_sample = 0
         self.phig.train()
@@ -137,18 +147,18 @@ class Solver(object):
             if img_s.size()[0] < self.batch_size or \
                     img_t.size()[0] < self.batch_size:
                 break
-            img_s = img_s.to(device)
-            img_t = img_t.to(device)
-            label_s = label_s.long().to(device)
+            img_s = img_s.to(self.device)
+            img_t = img_t.to(self.device)
+            label_s = label_s.long().to(self.device)
             # imgs = Variable(torch.cat((img_s, img_t), 0))
-            # label_s = Variable(label_s.long().to(device))
+            # label_s = Variable(label_s.long().to(self.device))
             # img_s = Variable(img_s)
             # img_t = Variable(img_t)
 
             # (M x p x K) samples from N(0,1)
             # eps = Variable(torch.randn(self.M, self.p, 10))
             eps = torch.randn(self.M, self.p, 10)
-            eps = eps.to(device)
+            eps = eps.to(self.device)
 
             # ### step A: min_{qw} (nll + kl) ###
             self.reset_grad()
@@ -262,7 +272,7 @@ class Solver(object):
         evaluate the current models on the entire test set
         """
 
-        criterion = nn.CrossEntropyLoss().to(device)
+        criterion = nn.CrossEntropyLoss().to(self.device)
 
         # turn models into evaluation mode
         self.phig.eval()
@@ -283,9 +293,9 @@ class Solver(object):
                 img_s = data["S"]
                 label_s = data["S_label"]
 
-                img, label = img.to(device), label.long().to(device)
-                img_s = img_s.to(device)
-                label_s = label_s.long().to(device)
+                img, label = img.to(self.device), label.long().to(self.device)
+                img_s = img_s.to(self.device)
+                label_s = label_s.long().to(self.device)
                 # img, label = Variable(img, volatile=True), Variable(label)
                 # img, label = Variable(img), Variable(label)
 
