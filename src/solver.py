@@ -87,11 +87,11 @@ class Solver(object):
                                     lr=lr, weight_decay=0., momentum=momentum)
 
         if which_opt == 'adam':
-            self.opt_phig = optim.Adam(self.phig.parameters(), lr=0.001, weight_decay=0.)
+            self.opt_phig = optim.Adam(self.phig.parameters(), lr=lr, weight_decay=0.)
             # self.opt_qw = optim.Adam(self.qw.parameters(), lr=lr, weight_decay=0.)
             # self.opt_phig = optim.Adam(self.phig.parameters(), lr=lr, weight_decay=0., amsgrad=True)
             if self.use_vadam:
-                self.opt_qw = Vadam(self.qw.parameters(), 500*128, lr=lr)
+                self.opt_qw = Vadam(self.qw.parameters(), 500*128, lr=0.0002)
             else:
                 self.opt_qw = optim.Adam(self.qw.parameters(), lr=lr, weight_decay=0., amsgrad=True)
 
