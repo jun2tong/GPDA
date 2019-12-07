@@ -21,7 +21,7 @@ class Solver(object):
     def __init__(self, args, batch_size=128, source='svhn', target='mnist',
                  nsamps_q=50, lamb_marg_loss=10.0,
                  learning_rate=0.0002, interval=100, optimizer='adam', num_k=4, num_kq=4,
-                 all_use=False, checkpoint_dir=None, save_epoch=10, use_vadam=False, gpu=1):
+                 all_use=False, checkpoint_dir=None, save_epoch=10,gpu=1):
 
         # set hyperparameters
         if gpu == 0:
@@ -32,8 +32,7 @@ class Solver(object):
             self.device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
         if gpu == 3:
             self.device = torch.device("cuda:3" if torch.cuda.is_available() else "cpu")
-        print("Using GPU", self.device)
-        
+ 
         self.batch_size = batch_size
         self.source = source
         self.target = target
@@ -43,12 +42,14 @@ class Solver(object):
         self.save_epoch = save_epoch
         self.use_abs_diff = args.use_abs_diff
         self.all_use = all_use
-        self.use_vadam = use_vadam
+        self.optimizer = optimizer
         if self.source == 'svhn':
             self.scale = True
         else:
             self.scale = False
         self.lamb_marg_loss = lamb_marg_loss
+        print("Using GPU", self.device)
+        print("Using OPTIMIZER", self.optimizer)
 
         # load data, do image transform, and create a mini-batch generator 
         print('dataset loading')
@@ -97,17 +98,19 @@ class Solver(object):
                                     lr=lr, weight_decay=0., momentum=momentum)
 
         if which_opt == 'adam':
-            self.opt_phig = optim.Adam(self.phig.parameters(), lr=lr, weight_decay=0.)
-            # self.opt_qw = optim.Adam(self.qw.parameters(), lr=lr, weight_decay=0.)
-            # self.opt_phig = optim.Adam(self.phig.parameters(), lr=lr, weight_decay=0., amsgrad=True)
-            if self.use_vadam:
-                self.opt_qw = Vadam(self.qw.parameters(), 500*128, lr=0.0002)
-            else:
-                self.opt_qw = optim.Adam(self.qw.parameters(), lr=lr, weight_decay=0., amsgrad=True)
+            self.opt_phig = optim.Adam( self.phig.parameters(),
+                lr=0.0002, weight_decay=0 )
+            self.opt_qw = optim.Adam( self.qw.parameters(),
+                lr=0.0002, weight_decay=0, amsgrad=True)
+
+        if which_opt == 'vadam':
+            self.opt_phig = optim.Adam(self.phig.parameters(), 
+                lr=0.001, weight_decay=0.)
+            self.opt_qw = Vadam(self.qw.parameters(),
+                500*128, lr=0.0002)
 
     ########
     def reset_grad(self):
-
         # zero out all gradients of model params registered in the optimizers
         self.opt_phig.zero_grad()
         self.opt_qw.zero_grad()
