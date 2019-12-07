@@ -34,3 +34,4 @@ Epoch 32 Test set: Average nll loss:  0.0543, Accuracy: 7536/10000 ( 75.360000),
 Epoch 33 Test set: Average nll loss:  0.0602, Accuracy: 7544/10000 ( 75.440000), S_accuracy:  74.8600%
 Epoch 34 Test set: Average nll loss:  0.0547, Accuracy: 7463/10000 ( 74.630000), S_accuracy:  74.5700%
 Epoch 35 Test set: Average nll loss:  0.0598, Accuracy: 7514/10000 ( 75.140000), S_accuracy:  74.7200%
+Epoch 36 Test set: Average nll loss:  0.0526, Accuracy: 7582/10000 ( 75.820000), S_accuracy:  74.5900%

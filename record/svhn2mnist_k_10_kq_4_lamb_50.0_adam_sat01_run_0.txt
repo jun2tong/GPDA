@@ -182,3 +182,6 @@ Train Epoch: 36 [batch-idx: 0] nll:  15.094262,  kl:  188.216797,  marg:  0.0723
 Train Epoch: 36 [batch-idx: 100] nll:  5.281116,  kl:  188.242188,  marg:  0.073005, S_accuracy:  99.9845%
 Train Epoch: 36 [batch-idx: 200] nll:  13.941673,  kl:  188.343750,  marg:  0.183119, S_accuracy:  99.9922%
 Train Epoch: 36 [batch-idx: 300] nll:  14.708701,  kl:  188.363281,  marg:  0.058725, S_accuracy:  99.9948%
+Train Epoch: 36 [batch-idx: 400] nll:  22.250143,  kl:  188.378906,  marg:  0.109638, S_accuracy:  99.9961%
+Train Epoch: 37 [batch-idx: 0] nll:  14.446561,  kl:  188.404297,  marg:  0.150181, S_accuracy:  100.0000%
+Train Epoch: 37 [batch-idx: 100] nll:  78.066574,  kl:  188.421875,  marg:  0.151901, S_accuracy:  99.9845%
