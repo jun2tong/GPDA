@@ -3,7 +3,7 @@ import sys
 
 def run_in(device,optimizer):
   print("device")
-  if optimizer ="vadam":
+  if optimizer =="vadam":
     if device == "0":
       commands = open("./commands0.txt").readlines()
       for command in commands:
@@ -24,7 +24,7 @@ def run_in(device,optimizer):
       for command in commands:
         print("LAUNCHING", command)
         os.system(command)
-  elif optimizer ="adam":
+  elif optimizer =="adam":
     if device == "0":
       commands = open("./commands0A.txt").readlines()
       for command in commands:
