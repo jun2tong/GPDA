@@ -18,7 +18,7 @@ parser.add_argument('--nsamps_q',
 
 parser.add_argument('--lamb_marg_loss',
                     type=float, default=50.0,
-                    help='impact of margin loss (default: 10.0)')
+                    help='impact of margin loss (default: 50.0)')
 
 parser.add_argument('--all_use',
                     type=str, default='no',
@@ -41,7 +41,7 @@ parser.add_argument('--lr',
                     help='learning rate (default: 0.0002)')
 
 parser.add_argument('--max_epoch',
-                    type=int, default=200,
+                    type=int, default=400,
                     help='maximum number of epochs (default: 200)')
 
 parser.add_argument('--no-cuda',
