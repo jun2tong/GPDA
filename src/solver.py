@@ -169,7 +169,7 @@ class Solver(object):
                 phig_s = self.phig(img_s)  # phi(G(xs))
                 wsamp = self.qw(eps)  # samples from q(w)
 
-                if self.use_vadam:
+                if self.optimizer == "vadam":
                     def closure():
                         wphig_s = torch.sum(wsamp.unsqueeze(1) * phig_s.unsqueeze(0).unsqueeze(3), dim=2)
                         loss = criterion(wphig_s.view(-1, 10), label_s.repeat(self.M)) * self.Ns
@@ -244,7 +244,7 @@ class Solver(object):
 
             if batch_idx > 500:
                 # record for the epoch
-                vadam_str = "vadam" if self.use_vadam else "adam"
+                vadam_str = "vadam" if self.optimizer == "vadam" else "adam"
                 loss_str = f"{vadam_str}_loss.txt"
                 str_arr = ",".join(map(str, loss_traj))
                 record = open(f"record/{loss_str}", 'a')
@@ -261,7 +261,7 @@ class Solver(object):
                     record.write('%s\n' % (prn_str,))
                     record.close()
 
-        vadam_str = "vadam" if self.use_vadam else "adam"
+        vadam_str = "vadam" if self.optimizer == "vadam" else "adam"
         loss_str = f"{vadam_str}_loss.txt"
         str_arr = ",".join(map(str, loss_traj))
         record = open(f"record/{loss_str}", 'a')
