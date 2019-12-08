@@ -1,3 +1,2 @@
 python src/main4.py --num_k 12 --num_kq 4 --batch-size 128 --max_epoch 400 --optimizer adam --gpu 2 --log_string "commands2A_01"
 python src/main4.py --num_k 12 --num_kq 8 --batch-size 128 --max_epoch 400 --optimizer adam --gpu 2 --log_string "commands2A_02"
-
