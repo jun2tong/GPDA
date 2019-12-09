@@ -1,0 +1,1 @@
+Epoch 0 Test set: Average nll loss:  0.0261, Accuracy: 1740/10000 ( 17.400000), S_accuracy:  17.1800%

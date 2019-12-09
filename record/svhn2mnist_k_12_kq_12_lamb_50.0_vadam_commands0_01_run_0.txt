@@ -1,0 +1,6 @@
+Train Epoch: 0 [batch-idx: 0] nll:  341798.187500,  kl:  3.189453,  marg:  57.485161, S_accuracy:  15.6250%
+Train Epoch: 0 [batch-idx: 100] nll:  167231.546875,  kl:  10.378906,  marg:  5.185994, S_accuracy:  17.6207%
+Train Epoch: 0 [batch-idx: 200] nll:  168472.781250,  kl:  10.908203,  marg:  1.498469, S_accuracy:  16.3907%
+Train Epoch: 0 [batch-idx: 300] nll:  168426.109375,  kl:  11.581055,  marg:  1.272124, S_accuracy:  17.0318%
+Train Epoch: 0 [batch-idx: 400] nll:  141649.578125,  kl:  21.770508,  marg:  2.612335, S_accuracy:  17.7739%
+Train Epoch: 1 [batch-idx: 0] nll:  124037.929688,  kl:  39.584961,  marg:  1.954628, S_accuracy:  29.6875%

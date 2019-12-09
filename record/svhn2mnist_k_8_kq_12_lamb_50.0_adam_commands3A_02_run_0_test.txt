@@ -177,3 +177,16 @@ Epoch 175 Test set: Average nll loss:  0.0579, Accuracy: 8868/10000 ( 88.680000)
 Epoch 176 Test set: Average nll loss:  0.0368, Accuracy: 8862/10000 ( 88.620000), S_accuracy:  88.0700%
 Epoch 177 Test set: Average nll loss:  0.0441, Accuracy: 8834/10000 ( 88.340000), S_accuracy:  87.6300%
 Epoch 178 Test set: Average nll loss:  0.0548, Accuracy: 8831/10000 ( 88.310000), S_accuracy:  87.9200%
+Epoch 179 Test set: Average nll loss:  0.0578, Accuracy: 8839/10000 ( 88.390000), S_accuracy:  88.4300%
+Epoch 180 Test set: Average nll loss:  0.0483, Accuracy: 8877/10000 ( 88.770000), S_accuracy:  88.3400%
+Epoch 181 Test set: Average nll loss:  0.0472, Accuracy: 8883/10000 ( 88.830000), S_accuracy:  88.4100%
+Epoch 182 Test set: Average nll loss:  0.0584, Accuracy: 8872/10000 ( 88.720000), S_accuracy:  87.9300%
+Epoch 183 Test set: Average nll loss:  0.0624, Accuracy: 8795/10000 ( 87.950000), S_accuracy:  87.4700%
+Epoch 184 Test set: Average nll loss:  0.0440, Accuracy: 8875/10000 ( 88.750000), S_accuracy:  88.3100%
+Epoch 185 Test set: Average nll loss:  0.0496, Accuracy: 8844/10000 ( 88.440000), S_accuracy:  88.1000%
+Epoch 186 Test set: Average nll loss:  0.0576, Accuracy: 8866/10000 ( 88.660000), S_accuracy:  87.5500%
+Epoch 187 Test set: Average nll loss:  0.0458, Accuracy: 8863/10000 ( 88.630000), S_accuracy:  88.1900%
+Epoch 188 Test set: Average nll loss:  0.0564, Accuracy: 8874/10000 ( 88.740000), S_accuracy:  88.1400%
+Epoch 189 Test set: Average nll loss:  0.0466, Accuracy: 8853/10000 ( 88.530000), S_accuracy:  88.3600%
+Epoch 190 Test set: Average nll loss:  0.0510, Accuracy: 8870/10000 ( 88.700000), S_accuracy:  88.3300%
+Epoch 191 Test set: Average nll loss:  0.0585, Accuracy: 8858/10000 ( 88.580000), S_accuracy:  88.3200%
