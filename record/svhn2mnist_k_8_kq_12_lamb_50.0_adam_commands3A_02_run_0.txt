@@ -1988,3 +1988,13 @@ Train Epoch: 397 [batch-idx: 100] nll:  7.259798,  kl:  125.227539,  marg:  0.00
 Train Epoch: 397 [batch-idx: 200] nll:  21.982765,  kl:  125.206055,  marg:  0.000000, S_accuracy:  100.0000%
 Train Epoch: 397 [batch-idx: 300] nll:  0.284409,  kl:  125.160156,  marg:  0.006053, S_accuracy:  99.9974%
 Train Epoch: 397 [batch-idx: 400] nll:  0.413776,  kl:  125.130859,  marg:  0.003068, S_accuracy:  99.9981%
+Train Epoch: 398 [batch-idx: 0] nll:  1.000192,  kl:  125.116211,  marg:  0.001978, S_accuracy:  100.0000%
+Train Epoch: 398 [batch-idx: 100] nll:  0.310979,  kl:  125.056641,  marg:  0.000000, S_accuracy:  99.9923%
+Train Epoch: 398 [batch-idx: 200] nll:  29.366598,  kl:  125.083984,  marg:  0.000000, S_accuracy:  99.9961%
+Train Epoch: 398 [batch-idx: 300] nll:  161.778824,  kl:  125.146484,  marg:  0.029341, S_accuracy:  99.9948%
+Train Epoch: 398 [batch-idx: 400] nll:  0.629185,  kl:  125.150391,  marg:  0.008595, S_accuracy:  99.9961%
+Train Epoch: 399 [batch-idx: 0] nll:  0.835893,  kl:  125.143555,  marg:  0.002452, S_accuracy:  100.0000%
+Train Epoch: 399 [batch-idx: 100] nll:  3.523164,  kl:  125.112305,  marg:  0.000000, S_accuracy:  100.0000%
+Train Epoch: 399 [batch-idx: 200] nll:  5.071837,  kl:  125.105469,  marg:  0.003697, S_accuracy:  99.9961%
+Train Epoch: 399 [batch-idx: 300] nll:  2.755076,  kl:  125.187500,  marg:  0.002658, S_accuracy:  99.9974%
+Train Epoch: 399 [batch-idx: 400] nll:  6.676488,  kl:  125.185547,  marg:  0.004325, S_accuracy:  99.9981%

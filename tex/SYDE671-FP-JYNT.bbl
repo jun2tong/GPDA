@@ -1,0 +1,16 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{khan2018fast}
+M.~E. Khan, D.~Nielsen, V.~Tangkaratt, W.~Lin, Y.~Gal, and A.~Srivastava.
+\newblock Fast and scalable bayesian deep learning by weight-perturbation in
+  adam.
+\newblock {\em arXiv preprint arXiv:1806.04854}, 2018.
+
+\bibitem{kim2019unsupervised}
+M.~Kim, P.~Sahu, B.~Gholami, and V.~Pavlovic.
+\newblock Unsupervised visual domain adaptation: A deep max-margin gaussian
+  process approach.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 4380--4390, 2019.
+
+\end{thebibliography}

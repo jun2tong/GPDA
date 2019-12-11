@@ -395,3 +395,6 @@ Epoch 393 Test set: Average nll loss:  0.0705, Accuracy: 8870/10000 ( 88.700000)
 Epoch 394 Test set: Average nll loss:  0.0600, Accuracy: 8893/10000 ( 88.930000), S_accuracy:  88.9800%
 Epoch 395 Test set: Average nll loss:  0.0489, Accuracy: 8885/10000 ( 88.850000), S_accuracy:  88.1700%
 Epoch 396 Test set: Average nll loss:  0.0791, Accuracy: 8873/10000 ( 88.730000), S_accuracy:  88.6600%
+Epoch 397 Test set: Average nll loss:  0.0610, Accuracy: 8849/10000 ( 88.490000), S_accuracy:  88.8700%
+Epoch 398 Test set: Average nll loss:  0.0464, Accuracy: 8878/10000 ( 88.780000), S_accuracy:  88.7600%
+Epoch 399 Test set: Average nll loss:  0.0759, Accuracy: 8857/10000 ( 88.570000), S_accuracy:  88.4800%

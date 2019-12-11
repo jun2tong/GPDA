@@ -1,0 +1,177 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{microtype}
+% From https://ctan.org/pkg/matlab-prettifier
+\usepackage[numbered,framed]{matlab-prettifier}
+\newcommand{\vect}[1]{\boldsymbol{\mathbf{#1}}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\frenchspacing
+
+\frenchspacing
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[pagebackref=true,breaklinks=true,letterpaper=true,colorlinks,bookmarks=false]{hyperref}
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+\ifcvprfinal\pagestyle{empty}\fi
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{SYDE 671 Final Project Report:\\
+Unsupervised Visual Domain Adaptation: A Deep Max-Margin Gaussian Process Approach}
+
+\author{JunYong Tong, Nick Torenvliet\\
+University of Waterloo\\
+\today
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%%%%%%%%% ABSTRACT
+% [1430: James] We'll ignore the abstract for now.
+\begin{abstract}
+In this project we implement and adapt the Unsupervised Domain Adaptation(UDA) approach described in ~\cite{kim2019unsupervised}.
+
+We begin with a brief description of the problem's context and introduce the various pieces of mathematical kit required to support the solution.  
+
+We go on to provide the basis for an adaptation of the method proposed in ~\cite{kim2019unsupervised} by integrating the natural gradient method as given in ~\cite{khan2018fast}.  
+
+We implement the approach in ~\cite{kim2019unsupervised}, as well as the natural gradient adaptation and then compare training outcomes of the two approaches across a grid of hyper-parameter selections.  An ensuing discussion of results identifies the improvement our adaptation provides.
+
+Finally we discuss potential applications for Domain Adaptation.
+\end{abstract}
+
+%%%%%%%%% BODY TEXT
+\section{Unsupervised Domain Adaptation}
+UDA is the task of training a model on labelled data from a source distribution so that it performs well on unlabelled data from a target distribution with common labels. 
+
+An example might be the training of a text sentiment analysis system to classify email from clients to lawyers as either satisfied or unsatisfied.  Utilizing UDA you could attempt to perform training using a labeled set of email from clients to financial advisors, and an unlabelled set of emails from clients to lawyers.  
+
+To formalize this notion, consider a joint space of inputs and class labels, \(\mathcal{X} \times \mathcal{Y}\) where \(\mathcal{Y} = \{1,\dots,K\}\). 
+
+Consider a source \textbf{S} and target \textbf{T} domain on this space,  with unknown distributions \(p_S(\vect{x}, y)\) and \(p_T(\vect{x},y)\), respectively.  Again consider a dataset consisting of 
+labelled source-domain training examples \(\mathcal{D}_S = \{\vect{x}_i^S, y_i\}_{i=1}^{N_S}\), and unlabelled target domain training examples \(\mathcal{D}_T = \{\vect{x}_I^T\}_{i=1}^{N_T}\).  Assume a shared set of class labels between the source and target domains. 
+
+The goal of UDA is to assign the correct class labels to the target data.
+
+This problem is tackled in a shared latent space framework, where we seek to learn an embedding function \(G: \mathcal{X} \to \mathcal{Z}\) and a classifier \(h: \mathcal{Z} \to \mathcal{Y}\).
+The functions \(G(\cdot)\) and \(h(\cdot)\) are shared across both domain and will be used to classify samples from target domain, i.e. \(y = h(G(\vect{x}))\), where \(\vect{x} \sim p_T\).
+
+\section{Related Work}
+
+Cite and discuss work that you used in your project, including any software used. Citations are written into a .bib file in BibTeX format, and can be called like this: Alpher et al.~\cite{Alpher04}. Here's a brief intro: \href{http://www.andy-roberts.net/writing/latex/bibliographies}{webpage}. \emph{Hint:} \$$>$ pdflatex \%docu, bibtex \%docu, pdflatex \%docu, pdflatex \%docu
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Watch for hanging orphans; they make a document look ugly.
+
+Talk about the implementation of ESPNetv2 \\
+Literature on network pruning
+
+\section{Method}
+
+What was your approach? Walk us through what you did. Include diagrams if it helps understanding. For instance, if you used a CNN, what was the architecture? If you changed WebGazer's processes, how does the new system flow look vs. the old system flow? Include equations as necessary, e.g., Pythagoras' theorem (Eq.~\ref{eq:example}):
+\begin{equation}
+x^2 + y^2 = z^2,
+\label{eq:example}
+\end{equation}
+where $x$ is the the `adjacent edge' of a right-angled triangle, $y$ is the `opposite edge' of a right-angled triangle, and $z$ is the hypotenuse.
+
+My code snippet highlights an interesting point.
+\begin{lstlisting}[style=Matlab-editor]
+one = 1;
+two = one + one;
+if two != 2
+    disp( 'This computer is broken.' );
+end
+\end{lstlisting}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\section{Results}
+
+Present the results of the changes. Include code snippets (just interesting things), figures (Figures \ref{fig:result1} and \ref{fig:result2}), and tables (Table \ref{tab:example}). Assess computational performance, accuracy performance, etc. Further, feel free to show screenshots, images; videos will have to be uploaded separately to Gradescope in a zip. Use whatever you need.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{ l c }
+\toprule
+Method & Frobnability \\
+\midrule
+Theirs & Frumpy \\
+Yours & Frobbly \\
+Ours & Makes one's heart Frob\\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Results. Ours is better. [James:] Please write a caption which makes the table/figure self-contained.}
+\label{tab:example}
+\end{table}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{placeholder.jpg}
+    \caption{Single-wide figure.}
+    \label{fig:result1}
+\end{figure}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.4\linewidth]{placeholder.jpg}
+    \includegraphics[width=0.4\linewidth]{placeholder.jpg}
+    \caption{Double-wide figure. \emph{Left:} My result was spectacular. \emph{Right:} Curious.}
+    \label{fig:result2}
+\end{figure*}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+%-------------------------------------------------------------------------
+\subsection{Discussion}
+
+What about your method raises interesting questions? Are there any trade-offs? What is the right way to think about the changes that you made?
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+%------------------------------------------------------------------------
+\section{Conclusion}
+
+What you did, why it matters, what the impact is going forward.
+
+{\small
+\bibliographystyle{ieee}
+\bibliography{Fall2017_ProjectFinal_ProjectReportTemplate}
+}
+
+\section*{Appendix}
+
+\subsection*{Team contributions}
+
+\begin{description}
+\item[Pascale Walters] As the only member of the group, I was responsible for all parts.
+\end{description}
+
+\end{document}

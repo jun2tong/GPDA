@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2019/Debian)
+Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
+The top-level auxiliary file: SYDE671-FP-JYNT.aux
+The style file: ieee.bst
+Database file #1: Fall2017_ProjectFinal_ProjectReportTemplate.bib
+Warning--I didn't find a database entry for "Alpher04"
+You've used 2 entries,
+            2120 wiz_defined-function locations,
+            511 strings with 4286 characters,
+and the built_in function-call counts, 936 in all, are:
+= -- 87
+> -- 56
+< -- 1
++ -- 22
+- -- 20
+* -- 67
+:= -- 154
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 16
+chr.to.int$ -- 0
+cite$ -- 2
+duplicate$ -- 35
+empty$ -- 62
+format.name$ -- 20
+if$ -- 195
+int.to.chr$ -- 0
+int.to.str$ -- 2
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 19
+preamble$ -- 1
+purify$ -- 14
+quote$ -- 0
+skip$ -- 30
+stack$ -- 0
+substring$ -- 50
+swap$ -- 14
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 8
+warning$ -- 0
+while$ -- 7
+width$ -- 3
+write$ -- 23
+(There was 1 warning)

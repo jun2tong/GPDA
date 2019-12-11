@@ -1,0 +1,10 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{kim2019unsupervised}
+M.~Kim, P.~Sahu, B.~Gholami, and V.~Pavlovic.
+\newblock Unsupervised visual domain adaptation: A deep max-margin gaussian
+  process approach.
+\newblock In {\em Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 4380--4390, 2019.
+
+\end{thebibliography}
