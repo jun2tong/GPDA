@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.12.10)  10 DEC 2019 19:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.12.10)  11 DEC 2019 13:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -632,19 +632,8 @@ File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 70.
-
-
-LaTeX Warning: Citation `Alpher04' on page 1 undefined on input line 80.
-
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 80.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-
-]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 97.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 71.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 99.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
@@ -653,7 +642,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-LaTeX Font Info:    Try loading font information for TS1+pcr on input line 101.
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+
+]
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 103.
 
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
@@ -663,47 +656,48 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: TS1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-<placeholder.jpg, id=34, 250.9375pt x 250.9375pt>
+<placeholder.jpg, id=39, 250.9375pt x 250.9375pt>
 File: placeholder.jpg Graphic file (type jpg)
 <use placeholder.jpg>
-Package pdftex.def Info: placeholder.jpg  used on input line 135.
+Package pdftex.def Info: placeholder.jpg  used on input line 137.
 (pdftex.def)             Requested size: 237.13594pt x 237.14867pt.
 File: placeholder.jpg Graphic file (type jpg)
 <use placeholder.jpg>
-Package pdftex.def Info: placeholder.jpg  used on input line 144.
+Package pdftex.def Info: placeholder.jpg  used on input line 146.
 (pdftex.def)             Requested size: 198.73946pt x 198.7477pt.
 File: placeholder.jpg Graphic file (type jpg)
 <use placeholder.jpg>
-Package pdftex.def Info: placeholder.jpg  used on input line 145.
+Package pdftex.def Info: placeholder.jpg  used on input line 147.
 (pdftex.def)             Requested size: 198.73946pt x 198.7477pt.
- [2 <./placeholder.jpg>] (./SYDE671-FP-JYNT.bbl (./SYDE671-FP-JYNT.brf)
+
+(./SYDE671-FP-JYNT.bbl (./SYDE671-FP-JYNT.brf)
 \tf@brf=\write3
 \openout3 = `SYDE671-FP-JYNT.brf'.
 
-)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 177.
+
+Underfull \vbox (badness 2158) has occurred while \output is active []
+
+ [2 <./placeholder.jpg>])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 179.
  [3
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 177.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 179.
  (./SYDE671-FP-JYNT.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 177.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 177.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 179.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 179.
 Package rerunfilecheck Info: File `SYDE671-FP-JYNT.brf' has not changed.
-(rerunfilecheck)             Checksum: 13BC1F0964E7E87B4845F6E854A20B16;273.
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 177.
+(rerunfilecheck)             Checksum: D3CCCDA44B24715B2D568561F2F6188D;284.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 179.
  ) 
 Here is how much of TeX's memory you used:
- 10917 strings out of 494477
- 159906 string characters out of 6175714
- 306669 words of memory out of 5000000
- 14310 multiletter control sequences out of 15000+600000
- 33755 words of font info for 130 fonts, out of 8000000 for 9000
+ 10893 strings out of 494477
+ 159532 string characters out of 6175714
+ 297974 words of memory out of 5000000
+ 14289 multiletter control sequences out of 15000+600000
+ 33441 words of font info for 129 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 34i,8n,56p,526b,1546s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 34i,8n,56p,645b,2037s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist
@@ -715,10 +709,10 @@ cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/urw/times/utmri8a.pfb>
-Output written on SYDE671-FP-JYNT.pdf (3 pages, 137797 bytes).
+Output written on SYDE671-FP-JYNT.pdf (3 pages, 134900 bytes).
 PDF statistics:
- 104 PDF objects out of 1000 (max. 8388607)
- 86 compressed objects within 1 object stream
- 25 named destinations out of 1000 (max. 500000)
- 28678 words of extra memory for PDF output out of 29859 (max. 10000000)
+ 105 PDF objects out of 1000 (max. 8388607)
+ 87 compressed objects within 1 object stream
+ 26 named destinations out of 1000 (max. 500000)
+ 28166 words of extra memory for PDF output out of 29859 (max. 10000000)
 

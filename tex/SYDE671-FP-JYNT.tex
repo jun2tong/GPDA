@@ -60,7 +60,8 @@ Finally we discuss potential applications for Domain Adaptation.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
-\section{Unsupervised Domain Adaptation}
+\section{Introduction}
+
 UDA is the task of training a model on labelled data from a source distribution so that it performs well on unlabelled data from a target distribution with common labels. 
 
 An example might be the training of a text sentiment analysis system to classify email from clients to lawyers as either satisfied or unsatisfied.  Utilizing UDA you could attempt to perform training using a labeled set of email from clients to financial advisors, and an unlabelled set of emails from clients to lawyers.  
@@ -70,19 +71,20 @@ To formalize this notion, consider a joint space of inputs and class labels, \(\
 Consider a source \textbf{S} and target \textbf{T} domain on this space,  with unknown distributions \(p_S(\vect{x}, y)\) and \(p_T(\vect{x},y)\), respectively.  Again consider a dataset consisting of 
 labelled source-domain training examples \(\mathcal{D}_S = \{\vect{x}_i^S, y_i\}_{i=1}^{N_S}\), and unlabelled target domain training examples \(\mathcal{D}_T = \{\vect{x}_I^T\}_{i=1}^{N_T}\).  Assume a shared set of class labels between the source and target domains. 
 
-The goal of UDA is to assign the correct class labels to the target data.
-
-This problem is tackled in a shared latent space framework, where we seek to learn an embedding function \(G: \mathcal{X} \to \mathcal{Z}\) and a classifier \(h: \mathcal{Z} \to \mathcal{Y}\).
-The functions \(G(\cdot)\) and \(h(\cdot)\) are shared across both domain and will be used to classify samples from target domain, i.e. \(y = h(G(\vect{x}))\), where \(\vect{x} \sim p_T\).
+The goal of UDA is to assign correct class labels to the data in \textbf{T}.  This assignment occurs via the support of a shared latent space \(\mathcal{Z}\) with properties imposed on it by the  mathematical kit UDA employs, and described in the following sections.  UDA learns an embedding function \(G: \mathcal{X} \to \mathcal{Z}\) and a classifier \(h: \mathcal{Z} \to \mathcal{Y}\).   \(G(\cdot)\) and \(h(\cdot)\) use the information provided by the data in \textbf{S}, and the properties imposed on the latent space,to minimize error of the classifier \(h\) on the target domain \textbf{T}.
 
 \section{Related Work}
 
-Cite and discuss work that you used in your project, including any software used. Citations are written into a .bib file in BibTeX format, and can be called like this: Alpher et al.~\cite{Alpher04}. Here's a brief intro: \href{http://www.andy-roberts.net/writing/latex/bibliographies}{webpage}. \emph{Hint:} \$$>$ pdflatex \%docu, bibtex \%docu, pdflatex \%docu, pdflatex \%docu
+A number of references are provided to motivate an understanding of UDA. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Watch for hanging orphans; they make a document look ugly.
+Kim et. al. provide the method in Unsupervised visual domain adaptation: A deep max-margin gaussian process approach ~\cite{kim2019unsupervised}.  UDA is an adaptation in a entire genre of literature related to the problem of Unsupervised Domain Adaptation.  
 
-Talk about the implementation of ESPNetv2 \\
-Literature on network pruning
+Perhaps the original account of the method is provided by Ben-David in ~\cite{}    
+ 
+
+
+\section{Unsupervised Domain Adaptation}
+
 
 \section{Method}
 
