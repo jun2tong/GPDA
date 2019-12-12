@@ -62,10 +62,29 @@ Finally we discuss potential applications for Domain Adaptation.
 %%%%%%%%% BODY TEXT
 \section{Introduction}
 
+Deep learning for visual task has achieved super human performance under the assumption that the training and testing data are generated independently and identically from a distribution (i.i.d). 
+However, this assumption is often costly to satisfy as nicely labelled data is difficult to come by.
+
 UDA is the task of training a model on labelled data from a source distribution so that it performs well on unlabelled data from a target distribution with common labels. 
 
-An example might be the training of a text sentiment analysis system to classify email from clients to lawyers as either satisfied or unsatisfied.  Utilizing UDA you could attempt to perform training using a labeled set of email from clients to financial advisors, and an unlabelled set of emails from clients to lawyers.  
+An example might be the training of a text sentiment analysis system to classify email from clients to lawyers as either satisfied or unsatisfied. 
+Utilizing UDA you could attempt to perform training using a labeled set of email from clients to financial advisors, and an unlabelled set of emails from clients to lawyers.  
 
+\section{Related Work}
+
+The original account of domain adaptation is provided by Ben-David in ~\cite{ben2010theory}, in which they provided a theoretical upper-bound for error on the problem. 
+There are three main different frameworks which tackles the domain adaptation problem.
+
+The first framework is the marginal matching strategy in which the strategy focus on transferring deep neural network representations from labeled source dataset to unlabelled target dataset by matching the distributions of features between different domains, aiming to extract domain-invariant features for example, \cite{sun2016deep}. 
+
+The second framework is generative modeling based methods, \cite{rebuffi2017learning} \cite{courty2017joint} \cite{benaim2017one}, where they leveraged adversarial training strategy which allows the learning of features representations to be discriminative for the labelled source domain data and indistinguishable between source and target domains.
+
+The third framework is the shared latent space framework where a strategy in this framework generally aims to learn an embedding that are used for classification in the target domain. 
+For example, \cite{liu2017unsupervised} proposed unsupervised image-to-image translation framework based on the \cite{liu2016coupled}.
+
+Similarly, Kim et. al. provide a deep max-margin gaussian process approach ~\cite{kim2019unsupervised}. UDA is an adaptation in a entire genre of literature related to the problem of Unsupervised Domain Adaptation.  
+
+\section{Unsupervised Domain Adaptation}
 To formalize this notion, consider a joint space of inputs and class labels, \(\mathcal{X} \times \mathcal{Y}\) where \(\mathcal{Y} = \{1,\dots,K\}\). 
 
 Consider a source \textbf{S} and target \textbf{T} domain on this space,  with unknown distributions \(p_S(\vect{x}, y)\) and \(p_T(\vect{x},y)\), respectively.  Again consider a dataset consisting of 
@@ -73,96 +92,136 @@ labelled source-domain training examples \(\mathcal{D}_S = \{\vect{x}_i^S, y_i\}
 
 The goal of UDA is to assign correct class labels to the data in \textbf{T}.  This assignment occurs via the support of a shared latent space \(\mathcal{Z}\) with properties imposed on it by the  mathematical kit UDA employs, and described in the following sections.  UDA learns an embedding function \(G: \mathcal{X} \to \mathcal{Z}\) and a classifier \(h: \mathcal{Z} \to \mathcal{Y}\).   \(G(\cdot)\) and \(h(\cdot)\) use the information provided by the data in \textbf{S}, and the properties imposed on the latent space,to minimize error of the classifier \(h\) on the target domain \textbf{T}.
 
-\section{Related Work}
+\subsection{Gaussian Process Classifier}
+We model \(K\) underlying latent functions \(\vect{f} = \{f_i\}_{i=1}^{K}\) on shared space, \(\mathcal{Z}\), as \(K\)-class Gaussian Process (GP) classifier, 
+    \begin{equation} \label{eq:prior}
+        p(\vect{f}) = \prod_{i=1}^{K}P(f_i), \, f_i \sim \mathcal{GP}\left(0, \kappa_j(\cdot,\cdot)\right)
+    \end{equation}
+where \(\kappa_j(\cdot,\cdot)\) is the covariance function of the GP. Using the likelihood model,
+    \begin{equation} \label{eq:likfunc}
+        P(y=i | \vect{f}(\vect{z})) = \frac{e^{f_i(\vect{z})}}{\sum_{j=1}^{K}e^{f_j(\vect{z})}}, \, i = 1,\dots,K
+    \end{equation}
+we get that \(\mathcal{D}_{_{S}}\) induces a posterior distribution on \(\vect{f}\),
+    \begin{equation} \label{eq:targetpost}
+        p(\vect{f}|\mathcal{D}_{_{S}}) \propto p(\vect{f}) \cdot \prod_{i=1}^{N_s} P(y_i^{S} | \vect{f}(\vect{z}_i^{S}))
+    \end{equation}
 
-A number of references are provided to motivate an understanding of UDA. 
+\subsection{Deep Kernel Trick}
+Up to this point, the \(\kappa_j\)'s in (\ref{eq:prior}) is only computable by limited choice of \(\kappa_j\). 
+We use the deep kernel trick to elevate this problem but modeling the \(\kappa_j\) with a nonlinear feature map \(\phi: \mathcal{Z} \to \mathbb{R}^d\) defined as an inner product in the feature space.
 
-Kim et. al. provide the method in Unsupervised visual domain adaptation: A deep max-margin gaussian process approach ~\cite{kim2019unsupervised}.  UDA is an adaptation in a entire genre of literature related to the problem of Unsupervised Domain Adaptation.  
+Assuming \(\vect{w}_i \sim \mathcal{N}(\vect{0}, \vect{I})\), then the \(\mathcal{H}\) prior (\ref{eq:targetpost}) becomes,
+    \begin{equation}
+        p(\vect{W}|\mathcal{D}_{_{S}}) \propto \prod_{i=1}^{K}\mathcal{N}(\vect{w}_i ; \vect{0}, \vect{I}) \cdot \prod_{i=1}^{N_s} P(y_i^{S} | \vect{W \phi}(\vect{z}_i^{S}))
+    \end{equation}
+    
+Note that \(p(\vect{W}|\mathcal{D}_{_{S}})\) is still intractable, and the next section will explain a technique to approximate it.
 
-Perhaps the original account of the method is provided by Ben-David in ~\cite{}    
- 
+\section{Variational Inference}
+Variation Bayesian methods is a family of techniques for approximating intractable (posterior) distribution arising in Bayesian inference. 
+Given an intractable posterior distribution \(p(\vect{z}|\vect{x})\), where \(\vect{z}\) is latent variable and \(\vect{x}\) is some data.
+We approximate \(p(\vect{z}|\vect{x})\) with a variational distribution \(q(\vect{z})\). The variational distribution is chosen to be simpler (tractable and factorizable) than the posterior. 
 
-
-\section{Unsupervised Domain Adaptation}
-
-
-\section{Method}
-
-What was your approach? Walk us through what you did. Include diagrams if it helps understanding. For instance, if you used a CNN, what was the architecture? If you changed WebGazer's processes, how does the new system flow look vs. the old system flow? Include equations as necessary, e.g., Pythagoras' theorem (Eq.~\ref{eq:example}):
-\begin{equation}
-x^2 + y^2 = z^2,
-\label{eq:example}
+We choose \(q(\vect{z})\) to be,
+\[
+q(\vect{z}) = \prod_{i=1}^{K} \mathcal{N}(\vect{w}_i ; \vect{m}_i, \vect{S}_i)
+\]
+For the approximation we look at the KL-divergence,
+\begin{align*}
+    D_{_{KL}}(q(\vect{z}) || p(\vect{z} | \vect{x})) &= \mathbb{E}_{q(\vect{z})} \left[ \log \frac{q(\vect{z})}{p(\vect{z} | \vect{x})} \right] \\
+    &= \mathbb{E}_{q(\vect{z})} \log q(\vect{z}) - \log p(\vect{z} | \vect{x}) \\
+    &= \mathbb{E}_{q(\vect{z})} \log q(\vect{z}) - \log \frac{p(\vect{x}, \vect{z})}{p(\vect{x})} \\
+    &= \mathbb{E}_{q(\vect{z})} \log q(\vect{z}) - \log p(\vect{x}|\vect{z}) p(\vect{z}) \\
+    &+ \log p(\vect{x})\\
+    &= \mathbb{E}_{q(\vect{z})} \log \frac{q(\vect{z})}{p(\vect{z})} - \log p(\vect{x}|\vect{z}) \\
+    &+ \log p(\vect{x}) \\
+    &\propto D_{_{KL}}(q(\vect{z}) || p(\vect{z})) - \mathbb{E}_{q(\vect{z})} \log p(\vect{x}|\vect{z})
+\end{align*}
+The last line follows from that we are optimizing over \(q(\vect{z})\) and \(\log p(\vect{x})\) is a constant with respect \(q(\vect{z})\). Replace \(\vect{z}\) with \(\vect{W}\) and \(\vect{x}\) with \(\mathcal{D}_S\); and this means minimizing \(D_{_{KL}}(q(\vect{z}) || p(\vect{z} | \vect{x}))\) is equivalent to the following optimization,
+\begin{equation} \label{eq:ELBO}
+    \underset{q}{\argmin} \, D_{KL} (q(\vect{W}) || p(\vect{W})) - \sum_{i=1}^{N_S} \mathbb{E}_{q} \log p(y_i|\vect{W})
 \end{equation}
-where $x$ is the the `adjacent edge' of a right-angled triangle, $y$ is the `opposite edge' of a right-angled triangle, and $z$ is the hypotenuse.
+This is also known as the evidence lower bound (ELBO).
+\section{Natural Gradient}
+Notice that (\ref{eq:ELBO}) is an optimization in the distribution space, but steps taken in the parameter space. There could be two different parametrization of \(q\) that yield the same results. Hence doing gradient descent with the parameters directly may yield wasteful update step and leading to slow convergence.
 
-My code snippet highlights an interesting point.
-\begin{lstlisting}[style=Matlab-editor]
-one = 1;
-two = one + one;
-if two != 2
-    disp( 'This computer is broken.' );
-end
-\end{lstlisting}
+% The idea is to derive a gradient update step that is invariant to parametrization. We do this by showing that the Fisher Information Matrix (FIM) is the Hessian of \(D_{_{KL}}\) and it is also the second order approximation of \(D_{_{KL}}\).
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+We will explore the use of natural gradients as introduced in \cite{amari1998natural} and \cite{pascanu2013revisiting}. 
+It accounts for the non-Euclidean geometry of parameters of probability distributions by looking for optimal descent directions in KL-divergence balls. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+\subsection{Two Results from Statistics}
+The first result\footnote{This is just a long derivation, there is nothing very deep, that is why it is skipped.} is that the Hessian of KL-divergence between two distributions \(p(\vect{\theta})\) and \(p(\vect{\theta}_1)\), with respect to \(\vect{\theta}_1\) evaluated at \((\vect{\theta})\) is Fisher information matrix. 
+\begin{align*}
+    \nabla_{\vect{\theta}_1}^2 D_{KL}(p(\vect{\theta})|| p(\vect{\theta}_1)) &= \vect{F} \\
+    &= \mathbb{E}_{p(\vect{\theta})} [\nabla_{\vect{\theta}} \log p(\vect{\theta})^{\intercal} \nabla_{\vect{\theta}} \log p(\vect{\theta})]
+\end{align*}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The second result is that the second-order Taylor approximation for \(D_{KL}(p(\vect{\theta})|| p(\vect{\theta}+\delta \vect{\theta} ))\) can be approximated by (assuming \(\delta \vect{\theta} \to 0\)),
+\begin{equation} \label{eq:KL-tsapprox}
+D_{KL}(p(\vect{\theta})|| p(\vect{\theta}+\delta \vect{\theta} )) \approx \frac{1}{2}\delta \vect{\theta}^{\intercal}\vect{F}\delta \vect{\theta}
+\end{equation}
 
-\section{Results}
+The intuition we get here is that \(D_{KL}\) acts as a local distance measure for distribution nearby.
+Thus inducing a Riemannian manifold on \(p(\vect{\theta})\) with \(\vect{F}\) as metric.
 
-Present the results of the changes. Include code snippets (just interesting things), figures (Figures \ref{fig:result1} and \ref{fig:result2}), and tables (Table \ref{tab:example}). Assess computational performance, accuracy performance, etc. Further, feel free to show screenshots, images; videos will have to be uploaded separately to Gradescope in a zip. Use whatever you need.
+\subsection{Steepest Descent Directions in \(D_{KL}\) balls}
+Given a loss function to be minimized, in our case the negative log-likelihood parameterized by \(\vect{W}\), denoted \(\mathcal{L}(\vect{W})\).
 
-\begin{table}
-\begin{center}
-\begin{tabular}{ l c }
-\toprule
-Method & Frobnability \\
-\midrule
-Theirs & Frumpy \\
-Yours & Frobbly \\
-Ours & Makes one's heart Frob\\
-\bottomrule
-\end{tabular}
-\end{center}
-\caption{Results. Ours is better. [James:] Please write a caption which makes the table/figure self-contained.}
-\label{tab:example}
-\end{table}
+Consider the minimization problem,
+\begin{align*}
+\underset{d}{\argmin} \, &\mathcal{L}(\vect{W} + d) \\
+\mbox{s.t} \, D_{KL}(p(\vect{W}) &|| p(\vect{W}+d)) = \epsilon
+\end{align*}
+where \(\epsilon > 0\) and \(p(\vect{W})\) denotes a distribution parameterized by \(\vect{W}\). The variable \(d\) denotes a small ``pertubation'' to \(\vect{W}\). 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The constraint is added to ensure the trivial solution is not in the solution set. 
+More importantly using this constraint we ensure that we descent on the distribution manifold with constant speed, without being slowed down by its curvature. 
+This makes learning locally invariant to parametrizations of the model.
 
-\begin{figure}[t]
-    \centering
-    \includegraphics[width=\linewidth]{placeholder.jpg}
-    \caption{Single-wide figure.}
-    \label{fig:result1}
-\end{figure}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.4\linewidth]{placeholder.jpg}
-    \includegraphics[width=0.4\linewidth]{placeholder.jpg}
-    \caption{Double-wide figure. \emph{Left:} My result was spectacular. \emph{Right:} Curious.}
-    \label{fig:result2}
-\end{figure*}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-%-------------------------------------------------------------------------
-\subsection{Discussion}
-
-What about your method raises interesting questions? Are there any trade-offs? What is the right way to think about the changes that you made?
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Writing the optimization problem in Lagrangian form with \(\mathcal{L}(\vect{W} + d)\) in its first-order Taylor approximation and \(D_{KL}(p(\vect{W}) || p(\vect{W}+d))\) with (\ref{eq:KL-tsapprox}):
+\begin{align*}
+    d^{*} &= \underset{d}{\argmin} \, \mathcal{L}(\vect{W} + d) + \lambda  (D_{KL}(p(\vect{W}) || p(\vect{W}+d)) + \epsilon) \\
+    &\approx \underset{d}{\argmin} \, \mathcal{L}(\vect{W}) + \nabla_{\vect{W}} \mathcal{L}(\vect{W})^{\intercal}d + \frac{\lambda}{2}d^{\intercal}\vect{F}d
+\end{align*}
+Set the derivative with respect to \(d\) to zero:
+\begin{align*}
+    0 &= \nabla_{\vect{W}} \mathcal{L}(\vect{W}) + \lambda \vect{F}d \\
+    \implies d &= -\frac{1}{\lambda} \vect{F}^{-1}\nabla_{\vect{W}} \mathcal{L}(\vect{W})
+\end{align*}
+This tells us the update step should be taken as,
+\begin{equation}
+    \vect{\vect{W}}_{t+1} = \vect{\vect{W}}_{t} - \alpha_t \, \vect{F}^{-1} \nabla_{\vect{W}} \mathcal{L}(\vect{W}_{t+1})
+\end{equation}
+This is update step that we will take. Here, \(\vect{F}^{-1}\) act as a gradient correction according to local curvature from the KL-divergence surface.
 
 %------------------------------------------------------------------------
+\section{Experimental Result}
+After thinking about how to compute FIM for the problem and large system (the neural network), I stumbled across Vadam \cite{khan2018fast} which does exactly what I wanted to do. 
+It is implemented in the same framework; and I used it to empirically compare the convergence rate of two optimization algorithm, Vadam and Adam.
+\begin{figure}[h]
+\begin{tabular}{c}
+     \includegraphics[width=0.4\textwidth]{images/vadam_compare.png}
+\end{tabular}
+\caption{The graph shows the loss versus epoch iteration of two optimization algorithm, Vadam and Adam. The blue is Vadam which uses natural gradient for update clearly converges to a loss quicker than Adam in red.}
+    \label{fig:vadam_compare}
+\end{figure}
+
+We see from Figure \ref{fig:vadam_compare} that we get a quicker convergence by using natural gradient (blue) to train our model than using first-order method (red).
+
+\section{Discussion}
+Note that Vadam works very well in this case because both Vadam and I have the same assumption about the form of variation distributions and its prior. Further, Vadam is developed exactly to adapt the Adam algorithm for variational inference through natural gradient.
+
+Although we seen how using natural gradient helps us to achieve faster convergence rate, broader application of natural gradient descant for neural network training remains restricted by the problem domain. 
+Another criticism of the use of natural gradient is that, it is unclear whether the faster convergence in epoch step is justified by the slow computation of FIM. 
+% Further, there are first-order heuristics which approximates the Hessian of the loss which enables Newton method for optimization. 
+
 \section{Conclusion}
 
-What you did, why it matters, what the impact is going forward.
+In this report we introduced the unsupervised domain adaptation problem and leveraged variational inference technique to learn a prior distribution for domain adaptation.
+In addition, we shown experimentally that using natural gradient results in quicker convergence in terms of epoch step for variational inference.
 
+In conclusion, when the situation arises, we can consider using natural gradient for model training as it yields faster model convergence.
 {\small
 \bibliographystyle{ieee}
 \bibliography{Fall2017_ProjectFinal_ProjectReportTemplate}
@@ -177,3 +236,4 @@ What you did, why it matters, what the impact is going forward.
 \end{description}
 
 \end{document}
+
