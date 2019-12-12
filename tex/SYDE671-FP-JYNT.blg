@@ -3,44 +3,44 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: SYDE671-FP-JYNT.aux
 The style file: ieee.bst
 Database file #1: Fall2017_ProjectFinal_ProjectReportTemplate.bib
-You've used 2 entries,
+You've used 11 entries,
             2120 wiz_defined-function locations,
-            509 strings with 4270 characters,
-and the built_in function-call counts, 936 in all, are:
-= -- 87
-> -- 56
-< -- 1
-+ -- 22
-- -- 20
-* -- 67
-:= -- 154
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 16
+            560 strings with 5604 characters,
+and the built_in function-call counts, 4816 in all, are:
+= -- 485
+> -- 207
+< -- 7
++ -- 82
+- -- 70
+* -- 310
+:= -- 725
+add.period$ -- 34
+call.type$ -- 11
+change.case$ -- 68
 chr.to.int$ -- 0
-cite$ -- 2
-duplicate$ -- 35
-empty$ -- 62
-format.name$ -- 20
-if$ -- 195
+cite$ -- 11
+duplicate$ -- 207
+empty$ -- 382
+format.name$ -- 70
+if$ -- 1063
 int.to.chr$ -- 0
-int.to.str$ -- 2
-missing$ -- 2
-newline$ -- 13
-num.names$ -- 4
-pop$ -- 19
+int.to.str$ -- 11
+missing$ -- 11
+newline$ -- 58
+num.names$ -- 22
+pop$ -- 85
 preamble$ -- 1
-purify$ -- 14
+purify$ -- 57
 quote$ -- 0
-skip$ -- 30
+skip$ -- 175
 stack$ -- 0
-substring$ -- 50
-swap$ -- 14
-text.length$ -- 1
+substring$ -- 346
+swap$ -- 85
+text.length$ -- 7
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 8
+type$ -- 44
 warning$ -- 0
-while$ -- 7
-width$ -- 3
-write$ -- 23
+while$ -- 47
+width$ -- 13
+write$ -- 122

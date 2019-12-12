@@ -61,14 +61,12 @@ Finally we discuss potential applications for Domain Adaptation.
 
 %%%%%%%%% BODY TEXT
 \section{Introduction}
+In general deep learning requires well labelled training and test data that are independently and identically distributed (i.i.d). It is often difficult to meet the requirement for large labelled datasets, as the process of aquiring them can be time-consuming, costly, and laborious.   
 
-Deep learning for visual task has achieved super human performance under the assumption that the training and testing data are generated independently and identically from a distribution (i.i.d). 
-However, this assumption is often costly to satisfy as nicely labelled data is difficult to come by.
+UDA is the task of training a model on labelled data from a source distribution so that it performs well on unlabelled data from a target distribution with common labels.  Successful UDA application may provide good classification results while simultaneously reducing the burdensome requirement for labelled training data. 
 
-UDA is the task of training a model on labelled data from a source distribution so that it performs well on unlabelled data from a target distribution with common labels. 
-
-An example might be the training of a text sentiment analysis system to classify email from clients to lawyers as either satisfied or unsatisfied. 
-Utilizing UDA you could attempt to perform training using a labeled set of email from clients to financial advisors, and an unlabelled set of emails from clients to lawyers.  
+A common example might be the training of a text sentiment analysis system to classify email from clients to lawyers as either satisfied or unsatisfied. 
+Utilizing UDA you could attempt to perform training using a labeled set of email from clients to financial advisors, and an unlabelled set of emails from clients to lawyers.
 
 \section{Related Work}
 
