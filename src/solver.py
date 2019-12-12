@@ -242,14 +242,14 @@ class Solver(object):
                 correct += pred.eq(label_s).sum().cpu().numpy()
                 n_sample += pred.size(0)
 
-            if batch_idx > 500:
-                # record for the epoch
-                vadam_str = "vadam" if self.optimizer == "vadam" else "adam"
-                loss_str = f"{vadam_str}_loss.txt"
-                str_arr = ",".join(map(str, loss_traj))
-                record = open(f"record/{loss_str}", 'a')
-                record.write('%s\n' % (str_arr,))
-                return batch_idx
+#            if batch_idx > 500:
+#                # record for the epoch
+#                vadam_str = "vadam" if self.optimizer == "vadam" else "adam"
+#                loss_str = f"{vadam_str}_loss.txt"
+#                str_arr = ",".join(map(str, loss_traj))
+#                record = open(f"record/{loss_str}", 'a')
+#                record.write('%s\n' % (str_arr,))
+#                return batch_idx
 
             if batch_idx % self.interval == 0:
                 prn_str = f"Train Epoch: {epoch} [batch-idx: {batch_idx}] " \
