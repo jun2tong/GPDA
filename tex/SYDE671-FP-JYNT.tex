@@ -216,6 +216,15 @@ It is implemented in the same framework; and I used it to empirically compare th
 We see from Figure \ref{fig:vadam_compare} that we get a quicker convergence by using natural gradient (blue) to train our model than using first-order method (red).
 
 \section{Implementation and Results}
+The implementation of the UDA code provided was rather straight forward.  The code was written in a recent python and used primarily a recent pytorch distribution.  A number of trivial modifications were made to support the most recent pytorch.
+
+We adapted the UDA code-base by including calls to a natural gradient implementation sourced from github.  The code was well written, installed easily, and referenced by a couple modified calls in the existing UDA code-base. 
+
+Initially we had some ambitious plans for a fine grained optimal hyper-parameter grid search over 8 Titan X GPUs using a parallel computing approach that would allow us to schedule GPUs resources for near optimal resource allocation. The UDA code base however makes frequent calls to pytorch routines that utilize multiprocessor options and managing this parallelism within a larger framework for parallelism was deemed beyond the scope of this report.  
+
+Instead we hand balmed the jobs to the GPUs and ran less aggressive schedule for the grid search. 
+
+All other things being equal   
 
 
 \section{Discussion}
@@ -241,7 +250,7 @@ In conclusion, when the situation arises, we can consider using natural gradient
 \subsection*{Team contributions}
 
 \begin{description}
-\item[Pascale Walters] As the only member of the group, I was responsible for all parts.
+	
 \end{description}
 
 \end{document}
