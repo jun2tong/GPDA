@@ -153,23 +153,23 @@ Notice that (\ref{eq:ELBO}) is an optimization in the distribution space with up
 
 % The idea is to derive a gradient update step that is invariant to parametrization. We do this by showing that the Fisher Information Matrix (FIM) is the Hessian of \(D_{_{KL}}\) and it is also the second order approximation of \(D_{_{KL}}\).
 
-In order to improve UDA by avoiding this possible inefficiency, we explore the use of natural gradients as introduced in \cite{amari1998natural} and \cite{pascanu2013revisiting}. 
-It accounts for the non-Euclidean geometry of parameters of probability distributions by looking for optimal descent directions in KL-divergence balls. 
+To improve UDA by avoiding possible inefficiencies, we explore the use of natural gradients as introduced in \cite{amari1998natural} and \cite{pascanu2013revisiting}. 
+Natural gradients account for the non-Euclidean geometry of parameters of probability distributions by looking for directions of optimal descent in KL-divergence balls. 
 
-\subsection{Two Results from Statistics}
-The first result\footnote{This is just a long derivation, there is nothing very deep, that is why it is skipped.} is that the Hessian of KL-divergence between two distributions \(p(\vect{\theta})\) and \(p(\vect{\theta}_1)\), with respect to \(\vect{\theta}_1\) evaluated at \((\vect{\theta})\) is Fisher information matrix. 
+\subsection{Two Required Results from Statistics}
+The first required result\footnote{the lengthy derivation is ommitted with only the result included.} is that the Hessian of KL-divergence between two distributions \(p(\vect{\theta})\) and \(p(\vect{\theta}_1)\), with respect to \(\vect{\theta}_1\) evaluated at \((\vect{\theta})\) is the Fisher information matrix. 
 \begin{align*}
     \nabla_{\vect{\theta}_1}^2 D_{KL}(p(\vect{\theta})|| p(\vect{\theta}_1)) &= \vect{F} \\
     &= \mathbb{E}_{p(\vect{\theta})} [\nabla_{\vect{\theta}} \log p(\vect{\theta})^{\intercal} \nabla_{\vect{\theta}} \log p(\vect{\theta})]
 \end{align*}
 
-The second result is that the second-order Taylor approximation for \(D_{KL}(p(\vect{\theta})|| p(\vect{\theta}+\delta \vect{\theta} ))\) can be approximated by (assuming \(\delta \vect{\theta} \to 0\)),
+The second required results is that the second-order Taylor approximation for \(D_{KL}(p(\vect{\theta})|| p(\vect{\theta}+\delta \vect{\theta} ))\) can be approximated by (assuming \(\delta \vect{\theta} \to 0\)),
 \begin{equation} \label{eq:KL-tsapprox}
 D_{KL}(p(\vect{\theta})|| p(\vect{\theta}+\delta \vect{\theta} )) \approx \frac{1}{2}\delta \vect{\theta}^{\intercal}\vect{F}\delta \vect{\theta}
 \end{equation}
 
-The intuition we get here is that \(D_{KL}\) acts as a local distance measure for distribution nearby.
-Thus inducing a Riemannian manifold on \(p(\vect{\theta})\) with \(\vect{F}\) as metric.
+Informally we understand \(D_{KL}\) acts as a local distance measure between distributions.
+With the Fisher result we conceive an induced Riemannian manifold over \(p(\vect{\theta})\) with \(\vect{F}\) as metric.
 
 \subsection{Steepest Descent Directions in \(D_{KL}\) balls}
 Given a loss function to be minimized, in our case the negative log-likelihood parameterized by \(\vect{W}\), denoted \(\mathcal{L}(\vect{W})\).
@@ -182,8 +182,8 @@ Consider the minimization problem,
 where \(\epsilon > 0\) and \(p(\vect{W})\) denotes a distribution parameterized by \(\vect{W}\). The variable \(d\) denotes a small ``pertubation'' to \(\vect{W}\). 
 
 The constraint is added to ensure the trivial solution is not in the solution set. 
-More importantly using this constraint we ensure that we descent on the distribution manifold with constant speed, without being slowed down by its curvature. 
-This makes learning locally invariant to parametrizations of the model.
+More importantly using this constraint we ensure that we descend on the distribution manifold with constant speed, without being slowed down by its curvature. 
+This makes learning locally invariant to parameterizations of the model.
 
 Writing the optimization problem in Lagrangian form with \(\mathcal{L}(\vect{W} + d)\) in its first-order Taylor approximation and \(D_{KL}(p(\vect{W}) || p(\vect{W}+d))\) with (\ref{eq:KL-tsapprox}):
 \begin{align*}
@@ -202,8 +202,8 @@ This tells us the update step should be taken as,
 This is update step that we will take. Here, \(\vect{F}^{-1}\) act as a gradient correction according to local curvature from the KL-divergence surface.
 
 %------------------------------------------------------------------------
-\section{Experimental Result}
-After thinking about how to compute FIM for the problem and large system (the neural network), I stumbled across Vadam \cite{khan2018fast} which does exactly what I wanted to do. 
+\subsection{As Found Natural Gradient}
+After thinking about how to compute \(\vect{F}\) for the problem and large system (the neural network), I stumbled across Vadam \cite{khan2018fast} which does exactly what I wanted to do. 
 It is implemented in the same framework; and I used it to empirically compare the convergence rate of two optimization algorithm, Vadam and Adam.
 \begin{figure}[h]
 \begin{tabular}{c}
@@ -214,6 +214,9 @@ It is implemented in the same framework; and I used it to empirically compare th
 \end{figure}
 
 We see from Figure \ref{fig:vadam_compare} that we get a quicker convergence by using natural gradient (blue) to train our model than using first-order method (red).
+
+\section{Implementation and Results}
+
 
 \section{Discussion}
 Note that Vadam works very well in this case because both Vadam and I have the same assumption about the form of variation distributions and its prior. Further, Vadam is developed exactly to adapt the Adam algorithm for variational inference through natural gradient.
