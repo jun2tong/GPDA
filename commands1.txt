@@ -1,4 +1,0 @@
-python src/main4.py --num_k 4 --num_kq 4 --batch-size 128 --max_epoch 400 --optimizer vadam --gpu 1 --log_string "commands1_01"
-python src/main4.py --num_k 4 --num_kq 8 --batch-size 128 --max_epoch 400 --optimizer vadam --gpu 1 --log_string "commands1_02"
-python src/main4.py --num_k 8 --num_kq 4 --batch-size 128 --max_epoch 400 --optimizer vadam --gpu 1 --log_string "commands1_03"
-python src/main4.py --num_k 8 --num_kq 8 --batch-size 128 --max_epoch 400 --optimizer vadam --gpu 1 --log_string "commands1_04"
