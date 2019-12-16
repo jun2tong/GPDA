@@ -11,6 +11,11 @@ torch==1.2.0
 numpy==1.17.3
 ```
 
+Will need to install [Vadam](https://github.com/emtiyaz/vadam/tree/master/pytorch).
+
+# To run the code
+The main function is `main4.py` located in src folder.
+
 ## Citation
 If you use this code for your research, please cite their paper.
 ```
